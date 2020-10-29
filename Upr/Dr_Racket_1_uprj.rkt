@@ -84,7 +84,28 @@
 (define (toBinary n)
   (if (= n 0 ) 0
       (+ (remainder n 2) (* 10 (toBinary (quotient n 2))))))
+(toBinary 5)
+;Задача 4
+(define (flip operator)
+  (lambda (x y) (operator y x)))
 
+;Здача 5
+(define (complement term)
+  (lambda (x) (term x)))
+
+;Задача6
+(define (compose f g)
+  (lambda (x) (f(g x))))
+
+;Задача 7
+(define (repeat n f)
+  (if (= n 1) f
+      (lambda (x) (f ((repeat (- n 1) f) x)))))
+
+;Задача 8
+(define dx 0.00001)
+(define (derive f)
+  (lambda (x) (/ (- f (+ x dx) (f x)) dx)))
 
 
 

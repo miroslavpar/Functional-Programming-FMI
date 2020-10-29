@@ -41,7 +41,6 @@
 (reverse-int 123)
 
 ;Задачча 5
-
 (define (palindrome? n ) (= n (reverse-int n)))
 
 (palindrome? 123321)
@@ -58,21 +57,40 @@
 (divisors-sum 12)
 
 ;Задача 7
+(define (perfect? n) (= n (- (divisors-sum n ) n)))
+
+(perfect? 6)
+
+;Задача 8
+;Моя имплементация за sqrt (не знаех, че вече съществува)
+(define (sqrtT n)
+  (define (helper div)
+    (cond ((= n (sq div)) div)
+           (else (helper (+ 1 div)))))
+  (helper 1))
+(sqrtT 9)
+  
+;(define (prime? n)
+  ;(if (or (= n 0) (= n 1)) #f)
+   ;(define (helper div)
+    ; (if (= 0 (remainder (sqrtT n) d)) #f)
+     ;           (else (helper (+ div 1))))
+  ;  (helper 2))
+;(prime? 101)
+
+;; УПРАЖНЕНИЕ 20.10.2020г.
+
+;Задача 1
+(define (toBinary n)
+  (if (= n 0 ) 0
+      (+ (remainder n 2) (* 10 (toBinary (quotient n 2))))))
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
+          
+              
 
 
         
