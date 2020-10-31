@@ -29,7 +29,9 @@
   (display "\u2518"))
 
 
-
+(squares-draw-up-line 3)
+(display "\n")
+(squares-draw-down-line 3)
 
 
 
