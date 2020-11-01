@@ -8,8 +8,13 @@
 
 ;;БЕЛЕЖКИ:
 
-;; при n = 3 -> 9 хоризонтални и така през 4 в зависимост от n
-;; при n = 3 -> 4 вертиканли и така през 2 в зависимост от n
+;;string-append -----> "\u0020" - тази фунцкяи приема стринга така
+;;make-string ------> #\u2502 - тази така 
+
+;; при n = 3 -> 9 хоризонтални и така през 4 в зависимост от n --> формула (4 * n) -3
+;; при n = 3 -> 4 вертиканли и така през 2 в зависимост от n ----> формула (
+
+(define vertical (string-append "\u2502" "#\u0020"))
 
 ;; Accumulate:
 
@@ -29,37 +34,42 @@
   ))
   (loop a)
 )
-
-(define (draw-upper-body n _)
+(define (multiple-string num sym1 sym2)
+  (define (helper k res)
+    (cond ((= k 0) res)
+          (else (helper (- k 1) (string-append res (string-append sym1 sym2))))))
+  (helper num ""))
+;;Наново :
+(define (draw-boxes n _)
   (define (helper k)
-  (if (> k 0) (begin   
-                (display (make-string (- n k) #\u2502))
-                (display (make-string (- n k) #\u0020))
+  (if (> k 0) (begin
+                (display (multiple-string (- n k) "\u2502" "\u0020"))
                 (display "\u250C")
                 (display (make-string (- (* 4 k) 3) #\u2500))
                 (display "\u2510")
-                (display (make-string (- n k) #\u0020))
-                
+                (display (multiple-string (- n k) "\u0020" "\u2502"))
                 (display "\n")
-                (helper (- k 1)))))
+                (helper (- k 1))
+                (display (multiple-string (- n k) "\u2502" "\u0020"))
+                (display "\u2514")
+                (display (make-string (- (* 4 k) 3) #\u2500))
+                (display "\u2518")
+                (display (multiple-string (- n k) "\u0020" "\u2502"))
+                (display "\n"))))
  (helper n))
 
 (define (1+ x) (+ x 1))
 (define (1- x) (- x 1))
 (define (id x) x)
-(accumulate draw-upper-body id 0 1 1+ 3)
+(define (squares n)
+  (accumulate draw-boxes id 0 1 1+ n))
+(accumulate draw-boxes id 0 1 1+ 5)
 
 
 
-;(display (string  #\u0020 #\u2502))
+;(display (string-append "" "aba"))
 
-
-
-
-
-
-
-
+;;Препълване на стека ::
 
 ;(define (how-many-squares-horziontals n)9) ;--> тук ще ми е параметърът от ХЕЛП фунцкията,т.е accumulate тръгва от 1 и до subsquares 
 ;;  (cond ((= n 1) 1)
@@ -88,4 +98,3 @@
 ;(define (id x) x )
 ;(accumulate draw-up-line id 0 3 1- 1)
 ;
-;;(define (squares n))
