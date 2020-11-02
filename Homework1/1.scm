@@ -38,7 +38,7 @@
     (cond ((= k 0) res)
           (else (helper (- k 1) (string-append res (string-append sym1 sym2))))))
   (helper num ""))
-;;Наново :
+
 (define (draw-boxes n _)
   (define (helper k)
   (if (> k 0)
@@ -65,37 +65,3 @@
 (define (squares n)
   (accumulate draw-boxes id 0 1 1+ n))
 (accumulate draw-boxes id 0 5 1+ 5)
-
-
-
-;(display (string-append "" "aba"))
-
-;;Препълване на стека ::
-
-;(define (how-many-squares-horziontals n)9) ;--> тук ще ми е параметърът от ХЕЛП фунцкията,т.е accumulate тръгва от 1 и до subsquares 
-;;  (cond ((= n 1) 1)
-;;        (else (+ 4 (how-many-squares-horziontals (- n 1))))))
-;
-;(define (how-many-squares-verticals n)9) ;--> и тук също ---//----
-;;  (cond ((= n 1) 0)
-;;        (else (+ 2 (how-many-squares-verticals (- n 1))))))
-;
-;(define (draw-up-line fic n)
-;  (define (helper k)
-;   (display "\u250C")
-;   (display (make-string (- (* 4 k) 3) #\u2500))
-;   (display "\u2510")
-;   (display "space"))
-;  (helper n))
-;
-;(define (squares-draw-down-line n)
-;  (define (helper k)
-;   (display "\u2514")
-;   (display (make-string (- (* 4 k) 3) #\u2500))
-;   (display "\u2518"))
-;  (helper n))
-;
-;(define (1- x) (- x 1))
-;(define (id x) x )
-;(accumulate draw-up-line id 0 3 1- 1)
-;
