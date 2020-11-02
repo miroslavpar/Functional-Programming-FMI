@@ -22,7 +22,15 @@
 
 (define (toDecimal n)
   (if (= n 0) 0
-      (+ (del-num-by-ten n) (* 2 (toDecimal (quotient n 10))))))
+      (+ (get-last-digit n) (* 2 (toDecimal (quotient n 10))))))
+
+(define (generic oper1 oper2 s1 s2)
+  (define (helper newSet1 newSet2 res bit)
+    (cond ((oper1 (= newSet1 0) (= newSet2 0)) (toDecimal res))
+          ((oper2 (= 1 (get-last-digit newSet1)) (= 1 (get-last-digit newSet2))) (helper (del-num-by-ten newSet1) (del-num-by-ten newSet2) (+ res (* 1 (expt 10 bit))) (+ bit 1)))
+          (else (helper (del-num-by-ten newSet1) (del-num-by-ten newSet2) (+ res (* 0 (expt 10 bit))) (+ bit 1)))))
+  (helper (toBinary s1) (toBinary s2) 0 0))
+
 ;;Основни функции
 
 (define (contains? n elem)
@@ -40,16 +48,6 @@
   (if (or (not (contains? set elem)) (negative? elem))set
       (- set (expt 2 elem))))
 
-;;Глупав начин за дефинираме на set-add :
-
-;(define (set-add set elem)
-;  (define (helper newSet res bit)
-;    (cond ((contains? (toBinary set) elem) (toBinary set))
-;          ((= 0 newSet) (+ res (* 1 (expt 10 elem))))
-;          ((= elem bit) res)
-;          (else (helper (quotient newSet 2) (+ res (* (remainder newSet 2) (expt 10 bit))) (+ bit 1)))))
-;    (toDecimal (helper set 0 0)))
-
 (define (set-empty? set)
   (if (= 0 set)#t #f))
 
@@ -61,20 +59,15 @@
   (helper (toBinary set) 0))
 
 (define (set-intersect s1 s2)
-  (define (helper newSet1 newSet2 res bit)
-    (cond ((or (= newSet1 0) (= newSet2 0)) (toDecimal res))
-          ((and (= 1 (get-last-digit newSet1)) (= 1 (get-last-digit newSet2))) (helper (del-num-by-ten newSet1) (del-num-by-ten newSet2) (+ res (* 1 (expt 10 bit))) (+ bit 1)))
-          (else (helper (del-num-by-ten newSet1) (del-num-by-ten newSet2) (+ res (* 0 (expt 10 bit))) (+ bit 1)))))
-  (helper (toBinary s1) (toBinary s2) 0 0))
-;;Да се оправи:
-(define (set-union s1 s2)
-  (define (helper newSet1 newSet2 res bit)
-    (cond ((or (= newSet1 0) (= 0 newSet2)) (toDecimal res))
-          ((or (= 1 (get-last-digit newSet1)) (= 1 (get-last-digit newSet2))) (helper (del-num-by-ten newSet1) (del-num-by-ten newSet2) (+ res(* 1 (expt 10 bit))) (+ 1 bit)))
-          (else (helper (del-num-by-ten newSet1) (del-num-by-ten newSet2) (+ res(* 0 (expt 10 bit))) (+ 1 bit)))))
-  (helper (toBinary s1) (toBinary s2) 0 0))
+  (generic (lambda (a b) (or a b)) (lambda (a b) (and a b)) s1 s2))
 
-(set-union 35 23)
+
+(define (set-union s1 s2)
+  (generic (lambda (a b) (and a b)) (lambda (a b) (or a b)) s1 s2))
+
+
+(define (set-differnece s1 s2)
+  (generic (lambda (a b) (and a b)) (lambda (a b) (and a b)) s1 s2))
 
 
           
