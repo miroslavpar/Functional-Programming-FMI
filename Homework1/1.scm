@@ -33,6 +33,7 @@
   ))
   (loop a)
 )
+
 (define (multiple-string num sym1 sym2)
   (define (helper k res)
     (cond ((= k 0) res)
@@ -56,12 +57,11 @@
                 (display "\u2518")
                 (display (multiple-string (- n k) "\u0020" "\u2502"))
                 (display "\n"))
-      (display "")))
+      ))
  (helper n))
 
 (define (1+ x) (+ x 1))
 (define (1- x) (- x 1))
 (define (id x) x)
 (define (squares n)
-  (accumulate draw-boxes id 0 1 1+ n))
-(accumulate draw-boxes id 0 5 1+ 5)
+  (accumulate draw-boxes id 0 n 1+ n))
