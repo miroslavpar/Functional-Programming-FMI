@@ -54,7 +54,7 @@
 (define (set-size set)
   (define (helper newset count)
     (cond ((= newset 0) count)
-          ((= 1 (remainder newset 10)) (helper (del-num-by-ten newset) (+ count 1)))
+          ((= 1 (get-last-digit newset)) (helper (del-num-by-ten newset) (+ count 1)))
           (else (helper (del-num-by-ten newset) count))))
   (helper (toBinary set) 0))
 
@@ -68,4 +68,20 @@
 
 (define (set-differnece s1 s2)
   (generic (lambda (a b) (and a b)) (lambda (a b) (and a b)) s1 s2))
-       
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;Бележки (Knapsack);;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;(w i) --> теглото на и-тия предмет
+;(p i ) ---> цената на и-тия предмет
+;n --> предмета
+; c --> капацитет
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(define (knapsack c n w p)
+  (define (helper i newSet prize luggage-left)
+    (cond ((>= i n) newSet)
+          ((> (w i) luggage-left) (helper (+ i 1) newSet prize cluggage-leftapLeft))
+          (else
+           (if (< (p (newSet)) (p(set-add newSet i)))
+               (helper (+ i 1) newSet price luggage-left)
+               (helper (+ i 1) (set-add newSet i) (+ price p(i)) (- luggage-left (w i)))))))
+  (helper 0 0 0 c))
